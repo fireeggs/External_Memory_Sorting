@@ -9,7 +9,7 @@ The suggested sequence of tasks for implementing 2PMMS is outlined below. Let's 
 
 ### 1.1. Main-memory sorting
 Implement a function that sorts an array of records by UID2 - in RAM. Use the stable in-place quick sort implemented in C function qsort  (<stdlib.h>). The qsort function requires that you provide the way of comparing two array entries, as in the following example:
-```
+```c
  /**
  * Compares two records a and b 
  * with respect to the value of the integer field f.
@@ -61,7 +61,7 @@ The starter code is provided in this repository. Again, you are free to ignore t
 ## 2. Performance experiments
 ### 2.1. Timing
 Run your disk_sort program with 200MB of available memory, and make sure that you never allocate more than 200MB of memory buffers. Record performance and memory consumption. You may use the following timing command:
-```
+```shell
 $ /usr/bin/time -v disk_sort <input file> <mem> <block size> 
 ```
 Record the total elapsed time taken by your program, and the value of the maximum resident set size.
@@ -75,7 +75,7 @@ In each experiment we perform at most 4 disk I/Os per input block, and theoretic
 
 ### 2.3. Comparing to Unix sort
 Let's compare the running time of our implementation (with 200 MB of RAM) to the Unix sort. The Unix sort also uses the external-memory merge sort for sorting large files. The input to the Unix program is our original text file edges.csv. Time the following program:
-```
+```shell
 $ sort -t"," -n -k2 edges.csv > edges_sorted_uid2.csv 
 ```
 
@@ -85,7 +85,7 @@ Having available two files of records - one sorted by UID1 and another sorted by
 Because you know the maximum number of out-degrees (and similarly you can find the maximum number of in-degrees), for simplicity, you may use an array of this size to keep counts. However, if you want to make your program more general, you may use a hashtable, if you know how to implement it in C. If you decide to use an array, you need to add an additional parameter to your program: max_degree.
 
 Write a new program called distribution which accepts as a parameter the name of the corresponding sorted file, the block size and the column id, and produces the required histogram. The column ID parameter tells which UID should we use for the computation - either UID1 (for out-degree) or UID2 (for in-degree).
-```
+```shell
 $ distribution <file_name> <block_size> <column_id> [<max_degree>]
 ```
  After you compute both histograms, you now test if any of them exhibits a power-law distribution. There's a simple method that provides a quick test for this.
